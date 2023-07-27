@@ -1,0 +1,2 @@
+Data from text1 : Just ruined my 11th - 12th
+Data from text2 : This is the second text file i have created

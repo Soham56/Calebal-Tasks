@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Method</title>
+    <style>
+        div{
+            display: flex;
+            justify-content: center;
+        }
+        span{
+            background-color: lightcoral;
+            padding: 10px;
+            margin: 10px;
+            border: 2px solid blue;
+        }
+    </style>
+</head>
+<body>
+    <form id="myForm">
+        <label for="name">Enter your name</label>
+        <input type="text" name="name" id="name" autocomplete="false">
+        <input type="submit" value="submit">
+    </form>
+    <div class="display"></div>
+    <script>
+
+        let fetchData = async ()=>{
+            let response = await fetch('/api/peoples');
+            let data = await response.json();
+            let display = document.querySelector('.display');
+            for(let i in data){
+                let span = document.createElement('span');
+                span.textContent = data[i];
+                display.appendChild(span);
+            }
+        }
+
+        let postData = async(msg)=>{
+            let response = await fetch('/api/peoples',{
+                method:'POST',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: msg,
+                    message: 'Success'
+                })
+            })
+            return await response.json();
+        }
+
+        fetchData();
+
+        let btn = document.getElementById("myForm");
+        
+        btn.addEventListener('submit', (e)=>{
+            e.preventDefault();
+            let msg = document.getElementById('name').value;
+            postData(msg)
+            .then((value)=>{
+                console.log(value);
+            })
+        });
+        
+    </script>
+</body>
+</html>
